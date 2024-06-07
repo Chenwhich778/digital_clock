@@ -1,0 +1,27 @@
+module date_counter(
+    input wire clk,
+    input wire rst,
+    output reg [6:0] year,
+    output reg [3:0] month,
+    output reg [4:0] day
+);
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            year <= 0;
+            month <= 1;
+            day <= 1;
+        end else begin
+            if (day == 31) begin
+                day <= 1;
+                if (month == 12) begin
+                    month <= 1;
+                    year <= year + 1;
+                end else begin
+                    month <= month + 1;
+                end
+            end else begin
+                day <= day + 1;
+            end
+        end
+    end
+endmodule

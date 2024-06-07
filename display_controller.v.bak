@@ -1,0 +1,41 @@
+module display_controller(
+    input wire clk_1Hz,
+    input wire rst,
+    input wire [4:0] hours,
+    input wire [5:0] minutes,
+    input wire [5:0] seconds,
+    input wire [6:0] year,
+    input wire [3:0] month,
+    input wire [4:0] day,
+    output reg [6:0] seg [5:0]
+);
+    reg [5:0] display_mode = 0;
+
+    always @(posedge clk_1Hz or posedge rst) begin
+        if (rst) begin
+            display_mode <= 0;
+        end else begin
+            display_mode <= display_mode + 1;
+        end
+    end
+
+    always @(*) begin
+        if (display_mode < 30) begin
+            // Display time
+            seg[0] = hours / 10;
+            seg[1] = hours % 10;
+            seg[2] = minutes / 10;
+            seg[3] = minutes % 10;
+            seg[4] = seconds / 10;
+            seg[5] = seconds % 10;
+        end else begin
+            // Display date
+            seg[0] = year / 10;
+            seg[1] = year % 10;
+            seg[2] = month / 10;
+            seg[3] = month % 10;
+            seg[4] = day / 10;
+            seg[5] = day % 10;
+        end
+    end
+endmodule

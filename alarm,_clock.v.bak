@@ -1,0 +1,52 @@
+module alarm_clock(
+    input wire clk_1Hz,
+    input wire rst,
+    input wire chime_enable,
+    output reg buzzer
+);
+    reg [3:0] chime_counter;
+    reg [2:0] beep_counter;
+    reg beep_on;
+    reg [1:0] chime_phase;
+
+    always @(posedge clk_1Hz) begin
+        if (rst) begin
+            chime_counter <= 0;
+            beep_counter <= 0;
+            beep_on <= 0;
+            chime_phase <= 0;
+            buzzer <= 0;
+        end else if (chime_enable) begin
+            if (chime_counter < 10) begin
+                chime_counter <= chime_counter + 1;
+                if (chime_phase == 0) begin
+                    if (beep_counter < 3) begin
+                        if (beep_on) begin
+                            buzzer <= 1;
+                            beep_on <= 0;
+                        end else begin
+                            buzzer <= 0;
+                            beep_on <= 1;
+                            beep_counter <= beep_counter + 1;
+                        end
+                    end else begin
+                        chime_phase <= 1;
+                        beep_counter <= 0;
+                    end
+                end else begin
+                    if (chime_counter % 5 < 3) begin
+                        buzzer <= 1;
+                    end else begin
+                        buzzer <= 0;
+                    end
+                end
+            end else begin
+                buzzer <= 0;
+                chime_counter <= 0;
+                chime_phase <= 0;
+            end
+        end else begin
+            buzzer <= 0;
+        end
+    end
+endmodule

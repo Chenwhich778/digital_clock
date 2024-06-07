@@ -1,0 +1,60 @@
+module digital_clock(
+    input wire clk_50MHz,
+    input wire rst,
+    output wire [6:0] seg0,
+    output wire [6:0] seg1,
+    output wire [6:0] seg2,
+    output wire [6:0] seg3,
+    output wire [6:0] seg4,
+    output wire [6:0] seg5
+);
+    wire clk_1kHz, clk_1Hz;
+    wire [4:0] hours;
+    wire [5:0] minutes, seconds;
+    wire [6:0] year;
+    wire [3:0] month;
+    wire [4:0] day;
+    wire [6:0] seg [5:0];
+
+/*    clock_divider u1 (
+        .clk_50MHz(clk_50MHz),
+        .rst(rst),
+        .clk_1kHz(clk_1kHz),
+        .clk_1Hz(clk_1Hz)
+    );
+
+    time_counter u2 (
+        .clk(clk_1Hz),
+        .rst(rst),
+        .hours(hours),
+        .minutes(minutes),
+        .seconds(seconds)
+    );
+
+    date_counter u3 (
+        .clk(clk_1Hz),
+        .rst(rst),
+        .year(year),
+        .month(month),
+        .day(day)
+    );
+
+    display_controller u4 (
+        .clk_1Hz(clk_1Hz),
+        .rst(rst),
+        .hours(hours),
+        .minutes(minutes),
+        .seconds(seconds),
+        .year(year),
+        .month(month),
+        .day(day),
+        .seg(seg)
+    );*/
+
+    assign seg0 = seg[0];
+    assign seg1 = seg[1];
+    assign seg2 = seg[2];
+    assign seg3 = seg[3];
+    assign seg4 = seg[4];
+    assign seg5 = seg[5];
+endmodule
